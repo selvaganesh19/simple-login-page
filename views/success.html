@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Success</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-page">
+            <div class="success-icon">✅</div>
+            <h1>Login Successful!</h1>
+            <p id="welcomeMessage">Welcome! You have successfully logged in to your account.</p>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <p><strong>Username:</strong> <span id="displayUsername">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="displayEmail">Loading...</span></p>
+                <p><strong>Login Time:</strong> <span id="displayLoginTime">Loading...</span></p>
+            </div>
+            <div class="success-actions">
+                <button onclick="goToDashboard()" class="btn-primary">Go to Dashboard</button>
+                <button id="logoutBtn" class="btn-secondary">Logout</button>
+            </div>
+            <div class="countdown">
+                <p>Redirecting to dashboard in <span id="countdown">5</span> seconds...</p>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+    <script>
+        console.log('Success page loaded'); // Debug log
+        
+        let countdownValue = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        function goToDashboard() {
+            console.log('Manual redirect to dashboard'); // Debug log
+            window.location.href = '/dashboard';
+        }
+        
+        // Load user info
+        fetch('/api/user')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('User data loaded:', data); // Debug log
+                document.getElementById('displayUsername').textContent = data.username;
+                document.getElementById('displayEmail').textContent = data.email;
+                document.getElementById('displayLoginTime').textContent = data.loginTime;
+                document.getElementById('userInfo').style.display = 'block';
+                document.getElementById('welcomeMessage').textContent = `Welcome back, ${data.username}!`;
+            })
+            .catch(error => {
+                console.error('Error loading user info:', error);
+                document.getElementById('displayUsername').textContent = 'Error';
+                document.getElementById('displayEmail').textContent = 'Error';
+                document.getElementById('displayLoginTime').textContent = 'Error';
+            });
+        
+        // Countdown timer
+        const countdownTimer = setInterval(() => {
+            countdownValue--;
+            if (countdownElement) {
+                countdownElement.textContent = countdownValue;
+            }
+            
+            if (countdownValue <= 0) {
+                clearInterval(countdownTimer);
+                console.log('Auto redirect to dashboard'); // Debug log
+                goToDashboard();
+            }
+        }, 1000);
+        
+        // Clear countdown if user manually navigates
+        window.addEventListener('beforeunload', () => {
+            clearInterval(countdownTimer);
+        });
+    </script>
+</body>
+</html>

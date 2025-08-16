@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard">
+            <div class="header">
+                <h1>🎯 Dashboard</h1>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+            <div class="welcome-section">
+                <h2 id="welcomeUser">Welcome back!</h2>
+                <p>You have successfully accessed your dashboard.</p>
+            </div>
+            <div class="user-details" id="userDetails">
+                <h3>Account Information</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Username:</label>
+                        <span id="dashUsername">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Email:</label>
+                        <span id="dashEmail">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Last Login:</label>
+                        <span id="dashLoginTime">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-actions">
+                <button onclick="refreshData()" class="btn-primary">Refresh Data</button>
+                <button onclick="goToProfile()" class="btn-secondary">View Profile</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+    <script>
+        function refreshData() {
+            loadUserData();
+        }
+        
+        function goToProfile() {
+            alert('Profile page coming soon!');
+        }
+        
+        function loadUserData() {
+            fetch('/api/user')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('welcomeUser').textContent = `Welcome back, ${data.username}!`;
+                    document.getElementById('dashUsername').textContent = data.username;
+                    document.getElementById('dashEmail').textContent = data.email;
+                    document.getElementById('dashLoginTime').textContent = data.loginTime;
+                })
+                .catch(error => {
+                    console.error('Error loading user data:', error);
+                    document.getElementById('dashUsername').textContent = 'Error loading data';
+                    document.getElementById('dashEmail').textContent = 'Error loading data';
+                    document.getElementById('dashLoginTime').textContent = 'Error loading data';
+                });
+        }
+        
+        // Load user data when page loads
+        document.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+</body>
+</html>
