@@ -1,0 +1,26 @@
+{
+  "name": "simple-login-page",
+  "version": "1.0.0",
+  "description": "Simple login page with Node.js",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "express-session": "^1.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "keywords": ["login", "authentication", "express", "nodejs"],
+  "author": "",
+  "license": "ISC"
+}
