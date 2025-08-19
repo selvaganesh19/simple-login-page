@@ -6,7 +6,7 @@ A minimal and secure login page built with Node.js and Express. This project dem
 
 ---
 
-## 🌟 Introduction      ----------
+## 🌟 Introduction      ---------
 
 **simple-login-page** is a lightweight Node.js application featuring a simple login interface. It uses Express for routing, handles sessions with `express-session`, and secures passwords using `bcryptjs`. This project is ideal for developers who want to understand essential authentication workflow in web applications.
 
